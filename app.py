@@ -6,10 +6,6 @@ import streamlit as st
 from PIL import Image
 from ultralytics import YOLO
 
-
-# ---------------------------------------------------------
-# Page configuration
-# ---------------------------------------------------------
 st.set_page_config(
     page_title="Road Damage Detection",
     page_icon="🛣️",
@@ -17,9 +13,6 @@ st.set_page_config(
 )
 
 
-# ---------------------------------------------------------
-# Constants
-# ---------------------------------------------------------
 MODEL_PATH = Path(__file__).parent / "best.pt"
 
 CLASS_DESCRIPTIONS = {
@@ -29,10 +22,6 @@ CLASS_DESCRIPTIONS = {
     "Pothole": "A bowl-shaped depression or hole in the road surface.",
 }
 
-
-# ---------------------------------------------------------
-# Load model only once
-# ---------------------------------------------------------
 @st.cache_resource
 def load_model() -> YOLO:
     if not MODEL_PATH.exists():
@@ -43,9 +32,6 @@ def load_model() -> YOLO:
     return YOLO(str(MODEL_PATH))
 
 
-# ---------------------------------------------------------
-# Header
-# ---------------------------------------------------------
 st.title("🛣️ Road Damage Detection System")
 
 st.write(
@@ -57,10 +43,6 @@ st.write(
 
 st.divider()
 
-
-# ---------------------------------------------------------
-# Sidebar controls
-# ---------------------------------------------------------
 with st.sidebar:
     st.header("Detection Settings")
 
@@ -88,19 +70,11 @@ with st.sidebar:
         st.markdown(f"**{class_name}**")
         st.caption(description)
 
-
-# ---------------------------------------------------------
-# File uploader
-# ---------------------------------------------------------
 uploaded_file = st.file_uploader(
     "Upload a road image",
     type=["jpg", "jpeg", "png"],
 )
 
-
-# ---------------------------------------------------------
-# Main prediction flow
-# ---------------------------------------------------------
 if uploaded_file is None:
     st.info("Upload a JPG, JPEG or PNG road image to begin.")
 
